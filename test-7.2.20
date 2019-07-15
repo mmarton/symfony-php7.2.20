@@ -1,0 +1,8 @@
+#!/usr/bin/env bash
+
+docker-compose -f docker-compose-7.2.20.yml up -d
+docker-compose -f docker-compose-7.2.20.yml exec php-7.2.20 rm -rf var/cache/prod
+docker-compose -f docker-compose-7.2.20.yml exec php-7.2.20 php -v
+docker-compose -f docker-compose-7.2.20.yml exec php-7.2.20 bin/console cache:clear
+docker-compose -f docker-compose-7.2.20.yml stop
+docker-compose -f docker-compose-7.2.20.yml down --volumes

@@ -1,0 +1,29 @@
+version: '3.6'
+
+services:
+  php-7.2.20:
+    depends_on:
+      - db
+    build:
+      context: docker/php-7.2.20
+    ports:
+      - "80:80"
+    volumes:
+      - .:/var/www/html
+      - ./docker/php/php.ini:/usr/local/etc/php/php.ini:ro
+      - ./docker/php/virtualhost.conf:/etc/apache2/sites-enabled/virtualhost.conf:ro
+    links:
+      - db
+
+  db:
+    image: mysql:8
+    environment:
+      MYSQL_ROOT_PASSWORD: 123456
+    ports:
+      - "3306:3306"
+    volumes:
+      - db_data:/var/lib/mysql
+      - ./docker/mysql/my.cnf:/etc/mysql/conf.d/my.cnf:ro
+
+volumes:
+  db_data:
